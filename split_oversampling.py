@@ -5,7 +5,8 @@ import sys, os
 import pickle
 
 if len(sys.argv) < 6:
-    print "usage: %s [files_pickle] [split_indices_pickle] [input_dir] [output_dir] [extension (normally avi or npy)] [makedir=False]" % sys.argv[0]
+    print "usage: %s [files_pickle] [split_indices_pickle] [input_dir] [output_dir] [extension (normally avi or npy)] [makedir=False] [split=-1]" % sys.argv[0]
+    print "if split=-1, split all splits. Otherwise split specific split."
     sys.exit()
 
 files_pickle = sys.argv[1]
@@ -18,6 +19,9 @@ makedir=False
 if len(sys.argv) >= 7:
     makedir = sys.argv[6] == 'True'
 
+split_num = -1
+if len(sys.argv) >= 8:
+    split_num = int(sys.argv[7])
 
 with open(files_pickle, 'rb') as f:
     files = pickle.load(f)
@@ -29,7 +33,7 @@ classes = sorted(files.keys())
 
 nb_negative = len(files[classes[0]])
 
-for split in xrange(split_indices.shape[0]):
+for split in xrange(split_indices.shape[0]) if split_num < 0 else xrange(split_num,split_num+1):
     for class_index in xrange(split_indices.shape[1]):
         nb_positive = len(files[classes[class_index]])
         nb_duplicate = int(round(nb_negative / nb_positive)) - 1    # note 1 subtracted. There will be (nb_duplicate+1) same samples
