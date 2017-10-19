@@ -5,13 +5,17 @@ import sys, os
 import pickle
 
 if len(sys.argv) < 5:
-    print "usage: %s [files_pickle] [split_indices_pickle] [input_dir] [output_dir]" % sys.argv[0]
+    print "usage: %s [files_pickle] [split_indices_pickle] [input_dir] [output_dir] [split_num=-1]" % sys.argv[0]
     sys.exit()
 
 files_pickle = sys.argv[1]
 split_indices_pickle = sys.argv[2]
 input_dir = sys.argv[3]
 output_dir = sys.argv[4]
+
+split_num = -1
+if len(sys.argv) >= 6:
+    split_num = int(sys.argv[5])
 
 with open(files_pickle, 'rb') as f:
     files = pickle.load(f)
@@ -21,7 +25,7 @@ with open(split_indices_pickle, 'rb') as f:
 
 classes = sorted(files.keys())
 
-for split in xrange(split_indices.shape[0]):
+for split in xrange(split_indices.shape[0]) if split_num < 0 else xrange(split_num,split_num+1):
     for class_index in xrange(split_indices.shape[1]):
         class_name = classes[class_index]
         input_class_dir = os.path.join(input_dir, class_name)
