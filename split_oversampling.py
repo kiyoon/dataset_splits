@@ -60,8 +60,8 @@ for split in xrange(split_indices.shape[0]) if split_num < 0 else xrange(split_n
                     os.makedirs(output_file_dirname)
 
                 os.system('cp -al "%s"* "%s"' % (input_filepath, output_file_dirname))
-                # oversampling
-                if class_index != 0:
+                # oversampling (only for training data)
+                if class_index != 0 and train_val == 0:
                     for dup_idx in xrange(nb_duplicate):
                         # only if you want to make it as a directory (multiple same names" e.g. opticalflow sliced
                         if makedir:
