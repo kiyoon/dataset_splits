@@ -48,9 +48,22 @@ for split in xrange(split_indices.shape[0]) if split_num < 0 else xrange(split_n
                 input_file_dirname = os.path.dirname(input_filepath)
                 output_file_dirname = os.path.dirname(output_filepath)
 
-                if not os.path.isdir(input_file_dirname):
-                    os.makedirs(input_file_dirname)
-                if not os.path.isdir(output_file_dirname):
-                    os.makedirs(output_file_dirname)
+                #if not os.path.isdir(input_file_dirname):
+                #    os.makedirs(input_file_dirname)
+                #if not os.path.isdir(output_file_dirname):
+                #    os.makedirs(output_file_dirname)
+
+                # make class directory, equal to every train val test splits.
+                # reason: sometimes there can be training data but no val or test data.
+                class_dir = os.path.join(output_dir, 'train%d' % split, class_name)
+                if not os.path.isdir(class_dir):
+                    os.makedirs(class_dir)
+                class_dir = os.path.join(output_dir, 'val%d' % split, class_name)
+                if not os.path.isdir(class_dir):
+                    os.makedirs(class_dir)
+                class_dir = os.path.join(output_dir, 'test%d' % split, class_name)
+                if not os.path.isdir(class_dir):
+                    os.makedirs(class_dir)
+
 
                 os.system('cp -al "%s"* "%s"' % (input_filepath, output_file_dirname))

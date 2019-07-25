@@ -68,6 +68,9 @@ print "training sample count: " + str(training_count)
 print "validation sample count: " + str(validation_count)
 print "test sample count: " + str(test_count)
 
+print "minimum training sample count: " + str(min(training_count))
+print "minimum validation sample count: " + str(min(validation_count))
+print "minimum test sample count: " + str(min(test_count))
 
 filenames = {}
 for subdir in classes:
